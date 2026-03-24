@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function AddProduct() {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login first");
+    router.push("/login");
+  }
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,39 +64,46 @@ export default function AddProduct() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Add Product</h1>
+  <div className="p-6 max-w-md mx-auto">
+    <h1 className="text-2xl font-bold mb-4">Add Product</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <br /><br />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="border p-2 rounded"
+        required
+      />
 
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        <br /><br />
+      <input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="border p-2 rounded"
+        required
+      />
 
-        <input
-          type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-        <br /><br />
+      <input
+        type="number"
+        placeholder="Price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        className="border p-2 rounded"
+        required
+      />
 
-        <button type="submit">Add Product</button>
-      </form>
-    </div>
-  );
+      <input
+       type="file"
+       onChange={(e) => setImage(e.target.files[0])}
+      />
+
+      <button className="bg-blue-500 text-white py-2 rounded">
+        Add Product
+      </button>
+    </form>
+  </div>
+ );
 }

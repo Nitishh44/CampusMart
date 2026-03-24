@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const filteredProducts = products.filter((p) =>
+  p.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   // 🔹 Fetch products
   useEffect(() => {
@@ -58,43 +65,48 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>CampusMart Products</h1>
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-4">CampusMart Products</h1>
+    <input
+  type="text"
+  placeholder="Search products..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="border p-2 mb-4 w-full rounded"
+ />
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : products.length === 0 ? (
-        <p>No products found</p>
-      ) : (
-        products.map((p) => (
+    {loading ? (
+      <p>Loading...</p>
+    ) : products.length === 0 ? (
+      <p>No products found</p>
+    ) : (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {filteredProducts.map((p) => (
           <div
             key={p._id}
-            style={{
-              border: "1px solid gray",
-              margin: "10px",
-              padding: "10px",
-            }}
+            className="border rounded-xl shadow-md p-4 bg-white"
           >
-            <h3>{p.title}</h3>
-            <p>{p.description}</p>
-            <p>₹ {p.price}</p>
+            <h3 className="text-lg font-semibold">{p.title}</h3>
+            <p className="text-gray-600">{p.description}</p>
+            <p className="font-bold mt-2">₹ {p.price}</p>
 
-            {/* 🔥 Delete Button */}
             <button
-              onClick={() => handleDelete(p._id)}
-              style={{
-                background: "red",
-                color: "white",
-                padding: "5px 10px",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Delete
-            </button>
+  onClick={() => handleDelete(p._id)}
+  className="mt-3 bg-red-500 text-white px-3 py-1 rounded"
+>
+  Delete
+</button>
+
+<button
+  onClick={() => router.push(`/edit-product/${p._id}`)}
+  className="mt-2 bg-blue-500 text-white px-3 py-1 rounded"
+>
+  Edit
+</button>
           </div>
-        ))
-      )}
-    </div>
-  );
+        ))}
+      </div>
+    )}
+  </div>
+ );
 }
