@@ -84,21 +84,35 @@ export default function Home() {
         {filteredProducts.map((p) => (
           <div
             key={p._id}
-            className="border rounded-xl shadow-md p-4 bg-white"
+            onClick={() => router.push(`/product/${p._id}`)}
+            className="border rounded-xl shadow-md p-4 bg-white cursor-pointer hover:scale-105 transition"
           >
+            {p.image && (
+            <img
+             src={`http://localhost:5000/uploads/${p.image}`}
+             alt={p.title}
+             className="h-40 w-full object-cover rounded mb-3"
+             />
+            )}
             <h3 className="text-lg font-semibold">{p.title}</h3>
             <p className="text-gray-600">{p.description}</p>
             <p className="font-bold mt-2">₹ {p.price}</p>
 
-            <button
-  onClick={() => handleDelete(p._id)}
+           <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleDelete(p._id);
+  }}
   className="mt-3 bg-red-500 text-white px-3 py-1 rounded"
 >
   Delete
 </button>
 
 <button
-  onClick={() => router.push(`/edit-product/${p._id}`)}
+  onClick={(e) => {
+    e.stopPropagation();
+    router.push(`/edit-product/${p._id}`);
+  }}
   className="mt-2 bg-blue-500 text-white px-3 py-1 rounded"
 >
   Edit
