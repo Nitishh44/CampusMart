@@ -7,10 +7,18 @@ export default function ChatPage({ params }) {
 
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
 
   // Fetch old messages
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+     const user = JSON.parse(localStorage.getItem("user"));
+console.log("LOCAL USER:", user);
+
+if (user) {
+  setCurrentUser(user._id);
+}
 
     fetch(`http://localhost:5000/api/message/${conversationId}`, {
       headers: {
@@ -55,6 +63,10 @@ export default function ChatPage({ params }) {
     }
   };
 
+
+console.log("CURRENT USER ID:", currentUser);
+console.log("MESSAGES:", messages);
+
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Chat</h1>
@@ -63,13 +75,33 @@ export default function ChatPage({ params }) {
         {messages.length === 0 ? (
           <p className="text-gray-500">No messages yet</p>
         ) : (
-          messages.map((msg) => (
-            <div key={msg._id} className="mb-2">
-              <p className="bg-white p-2 rounded shadow inline-block">
-                {msg.text}
-              </p>
-            </div>
-          ))
+
+      
+          messages.map((msg) => {
+  const senderId =
+    typeof msg.sender === "object" ? msg.sender?._id : msg.sender;
+
+  return (
+    <div
+      key={msg._id}
+      className={`mb-2 flex ${
+        String(senderId) === String(currentUser)
+          ? "justify-end"
+          : "justify-start"
+      }`}
+    >
+      <p
+        className={`p-2 rounded-lg shadow inline-block max-w-xs ${
+          String(senderId) === String(currentUser)
+            ? "bg-blue-500 text-white"
+            : "bg-white text-black"
+        }`}
+      >
+        {msg.text}
+      </p>
+    </div>
+  );
+})
         )}
       </div>
 

@@ -67,6 +67,12 @@ export default function Home() {
   return (
   <div className="p-6">
     <h1 className="text-2xl font-bold mb-4">CampusMart Products</h1>
+    <button
+  onClick={() => router.push("/messages")}
+  className="mb-4 bg-black text-white px-4 py-2 rounded"
+>
+  Open Inbox
+</button>
     <input
   type="text"
   placeholder="Search products..."

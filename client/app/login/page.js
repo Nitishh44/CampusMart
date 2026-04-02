@@ -23,14 +23,13 @@ export default function Login() {
       const data = await res.json();
 
       if (res.ok) {
-        // 🔥 Save token
-        localStorage.setItem("token", data.token);
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert("Login successful!");
-
-        // 🔥 Redirect to home
-        router.push("/");
-      } else {
+  alert("Login successful");
+  router.push("/");
+}
+       else {
         alert(data.message || "Login failed");
       }
     } catch (err) {
