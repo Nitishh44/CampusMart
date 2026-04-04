@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Inbox() {
-  const [conversations, setConversations] = useState([]);
+export default function InboxPage() {
   const router = useRouter();
+  const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,14 +17,17 @@ export default function Inbox() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Inbox Data:", data);
-        setConversations(data);
+        console.log("CHAT DATA:", data);
+        setConversations(Array.isArray(data) ? data : []);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setConversations([]);
+      });
   }, []);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
+    <div className="p-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Inbox</h1>
 
       {conversations.length === 0 ? (
@@ -34,24 +37,12 @@ export default function Inbox() {
           <div
             key={c._id}
             onClick={() => router.push(`/messages/${c._id}`)}
-            className="flex items-center gap-4 border p-3 rounded-lg mb-3 cursor-pointer hover:bg-gray-100"
+            className="border p-4 rounded-lg mb-3 cursor-pointer hover:bg-gray-100"
           >
-            {c.product?.image && (
-              <img
-                src={`http://localhost:5000/uploads/${c.product.image}`}
-                alt=""
-                className="w-12 h-12 object-cover rounded"
-              />
-            )}
-
-            <div>
-              <h3 className="font-semibold">
-                {c.product?.title || "Product"}
-              </h3>
-              <p className="text-sm text-gray-500">
-                Chat ID: {c._id.slice(-5)}
-              </p>
-            </div>
+            <h2 className="font-bold">
+              {c.product?.title || "Product"}
+            </h2>
+            <p className="text-gray-600">Open Chat</p>
           </div>
         ))
       )}
