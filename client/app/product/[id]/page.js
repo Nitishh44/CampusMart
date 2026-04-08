@@ -33,7 +33,7 @@ export default function ProductDetail({ params }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          sellerId: product.seller,
+          sellerId: product.seller?._id || product.seller,
           productId: product._id,
         }),
       });

@@ -6,12 +6,22 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const filteredProducts = products.filter((p) =>
-  p.title.toLowerCase().includes(search.toLowerCase())
-  );
+
+  const filteredProducts = products.filter((p) => {
+  const matchesSearch = p.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  const matchesCategory = selectedCategory
+    ? p.category === selectedCategory
+    : true;
+
+  return matchesSearch && matchesCategory;
+});
 
   // 🔹 Fetch products
   useEffect(() => {
@@ -67,6 +77,19 @@ export default function Home() {
   return (
   <div className="p-6">
     <h1 className="text-2xl font-bold mb-4">CampusMart Products</h1>
+    <select
+  value={selectedCategory}
+  onChange={(e) => setSelectedCategory(e.target.value)}
+  className="border p-2 rounded mb-4"
+>
+  <option value="">All Categories</option>
+  <option value="Books">Books</option>
+  <option value="Electronics">Electronics</option>
+  <option value="Notes">Notes</option>
+  <option value="Calculator">Calculator</option>
+  <option value="Cycle">Cycle</option>
+  <option value="Hostel">Hostel Items</option>
+</select>
     <button
   onClick={() => router.push("/messages")}
   className="mb-4 bg-black text-white px-4 py-2 rounded"

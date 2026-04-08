@@ -10,6 +10,7 @@ export default function AddProduct() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -35,6 +36,7 @@ export default function AddProduct() {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("price", price);
+      formData.append("category", category);
       formData.append("image", image);
 
       const res = await fetch("http://localhost:5000/api/product/add", {
@@ -94,6 +96,21 @@ export default function AddProduct() {
           className="border p-2 rounded"
           required
         />
+
+        <select
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  className="border p-2 rounded"
+  required
+>
+  <option value="">Select Category</option>
+  <option value="Books">Books</option>
+  <option value="Electronics">Electronics</option>
+  <option value="Notes">Notes</option>
+  <option value="Calculator">Calculator</option>
+  <option value="Cycle">Cycle</option>
+  <option value="Hostel">Hostel Items</option>
+</select>
 
         <input
           type="file"

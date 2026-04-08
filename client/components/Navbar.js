@@ -23,7 +23,9 @@ export default function Navbar() {
     <div style={{ padding: "10px", borderBottom: "1px solid gray" }}>
       <Link href="/">Home</Link> |{" "}
       <Link href="/add-product">Add Product</Link> |{" "}
+      <Link href="/my-products">My Products</Link> | {" "}
       <Link href="/register">Register</Link> |{" "}
+      <Link href="/my-products">My Products</Link> | {" "}
       
       {isLoggedIn ? (
         <button onClick={handleLogout}>Logout</button>

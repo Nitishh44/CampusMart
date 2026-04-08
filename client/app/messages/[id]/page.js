@@ -1,25 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ChatPage({ params }) {
   const conversationId = params.id;
+  const router = useRouter();
 
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [currentUser, setCurrentUser] = useState("");
+  const [conversation, setConversation] = useState(null);
 
-  // Fetch old messages
+  const chatBoxRef = useRef(null);
+
+  // Fetch messages + conversation
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-     const user = JSON.parse(localStorage.getItem("user"));
-console.log("LOCAL USER:", user);
+    if (user) {
+      setCurrentUser(user._id);
+    }
 
-if (user) {
-  setCurrentUser(user._id);
-}
-
+    // Fetch messages
     fetch(`http://localhost:5000/api/message/${conversationId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +32,24 @@ if (user) {
       .then((res) => res.json())
       .then((data) => setMessages(data))
       .catch((err) => console.log(err));
+
+    // Fetch conversation details
+    fetch(`http://localhost:5000/api/chat/${conversationId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setConversation(data))
+      .catch((err) => console.log(err));
   }, [conversationId]);
+
+  // Auto scroll
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // Send message
   const handleSend = async () => {
@@ -63,54 +84,84 @@ if (user) {
     }
   };
 
-
-console.log("CURRENT USER ID:", currentUser);
-console.log("MESSAGES:", messages);
-
   return (
     <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Chat</h1>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-4 border-b pb-3">
+        <button onClick={() => router.back()} className="text-xl font-bold">
+          ⬅️
+        </button>
 
-      <div className="border rounded-lg p-4 h-96 overflow-y-auto bg-gray-50">
+        <div>
+          <h2 className="font-bold text-lg">
+            {conversation?.product?.title || "Chat"}
+          </h2>
+          <p className="text-sm text-gray-500">
+            {conversation
+              ? `Chat with ${
+                  conversation.buyer?._id === currentUser
+                    ? conversation.seller?.name
+                    : conversation.buyer?.name
+                }`
+              : ""}
+          </p>
+        </div>
+      </div>
+
+      {/* Chat box */}
+      <div
+        ref={chatBoxRef}
+        className="border rounded-lg p-4 h-96 overflow-y-auto bg-gray-50"
+      >
         {messages.length === 0 ? (
           <p className="text-gray-500">No messages yet</p>
         ) : (
-
-      
           messages.map((msg) => {
-  const senderId =
-    typeof msg.sender === "object" ? msg.sender?._id : msg.sender;
+            const senderId =
+              typeof msg.sender === "object" ? msg.sender?._id : msg.sender;
 
-  return (
-    <div
-      key={msg._id}
-      className={`mb-2 flex ${
-        String(senderId) === String(currentUser)
-          ? "justify-end"
-          : "justify-start"
-      }`}
-    >
-      <p
-        className={`p-2 rounded-lg shadow inline-block max-w-xs ${
-          String(senderId) === String(currentUser)
-            ? "bg-blue-500 text-white"
-            : "bg-white text-black"
-        }`}
-      >
-        {msg.text}
-      </p>
-    </div>
-  );
-})
+            return (
+              <div
+                key={msg._id}
+                className={`mb-2 flex ${
+                  String(senderId) === String(currentUser)
+                    ? "justify-end"
+                    : "justify-start"
+                }`}
+              >
+                <div
+                  className={`p-2 rounded-lg shadow inline-block max-w-xs ${
+                    String(senderId) === String(currentUser)
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-black"
+                  }`}
+                >
+                  <p>{msg.text}</p>
+                  <p className="text-xs mt-1 opacity-70 text-right">
+                    {new Date(msg.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+              </div>
+            );
+          })
         )}
       </div>
 
+      {/* Input */}
       <div className="flex mt-4 gap-2">
         <input
           type="text"
           placeholder="Type a message..."
           value={text}
           onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSend();
+            }
+          }}
           className="flex-1 border p-2 rounded"
         />
         <button
