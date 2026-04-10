@@ -64,7 +64,25 @@ export default function ProductDetail({ params }) {
       )}
 
       <h1 className="text-3xl font-bold">{product.title}</h1>
+
       <p className="text-gray-600 mt-3 text-lg">{product.description}</p>
+
+      <p className="mt-3 text-sm text-blue-600 font-medium">
+        Category: {product.category || "Others"}
+      </p>
+
+      <p className="mt-2 text-sm text-gray-700">
+        Seller: {product.seller?.name || "Unknown Seller"}
+      </p>
+
+      <p
+        className={`mt-2 text-sm font-semibold ${
+          product.isSold ? "text-red-600" : "text-green-600"
+        }`}
+      >
+        Status: {product.isSold ? "SOLD" : "Available"}
+      </p>
+
       <p className="text-2xl font-bold mt-4">₹ {product.price}</p>
 
       <button

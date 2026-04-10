@@ -9,16 +9,12 @@ export default function AddProduct() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState(null);
   const [category, setCategory] = useState("");
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
-    if (!token) {
-      alert("Please login first");
-      router.push("/login");
-    }
+    if (!token) router.push("/login");
   }, []);
 
   const handleSubmit = async (e) => {
@@ -26,100 +22,73 @@ export default function AddProduct() {
 
     const token = localStorage.getItem("token");
 
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("category", category);
+    formData.append("image", image);
 
-    try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("price", price);
-      formData.append("category", category);
-      formData.append("image", image);
+    const res = await fetch("http://localhost:5000/api/product/add", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
-      const res = await fetch("http://localhost:5000/api/product/add", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Product Added Successfully!");
-
-        setTitle("");
-        setDescription("");
-        setPrice("");
-        setImage(null);
-      } else {
-        alert(data.message || "Error adding product");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong!");
+    if (res.ok) {
+      alert("Product added");
+      router.push("/");
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Add Product</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-yellow-50 to-indigo-100">
+      <form className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md hover:shadow-blue-200 transition-all duration-500" onSubmit={handleSubmit}>
+        
+        <h1 className="text-2xl font-bold mb-6 text-center text-[#0f3d91]">
+          Add Product
+        </h1>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           type="text"
           placeholder="Title"
-          value={title}
+          className="w-full mb-3 p-3 border rounded-lg"
           onChange={(e) => setTitle(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
         <input
           type="text"
           placeholder="Description"
-          value={description}
+          className="w-full mb-3 p-3 border rounded-lg"
           onChange={(e) => setDescription(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
         <input
           type="number"
           placeholder="Price"
-          value={price}
+          className="w-full mb-3 p-3 border rounded-lg"
           onChange={(e) => setPrice(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
         <select
-  value={category}
-  onChange={(e) => setCategory(e.target.value)}
-  className="border p-2 rounded"
-  required
->
-  <option value="">Select Category</option>
-  <option value="Books">Books</option>
-  <option value="Electronics">Electronics</option>
-  <option value="Notes">Notes</option>
-  <option value="Calculator">Calculator</option>
-  <option value="Cycle">Cycle</option>
-  <option value="Hostel">Hostel Items</option>
-</select>
+          className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300"
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          <option value="Books">Books</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Notes">Notes</option>
+        </select>
 
         <input
           type="file"
+          className="w-full mb-4"
           onChange={(e) => setImage(e.target.files[0])}
-          className="border p-2 rounded"
-          required
         />
 
-        <button className="bg-blue-500 text-white py-2 rounded">
+        <button className="w-full bg-[#0f3d91] text-white py-3 rounded-lg font-semibold hover:bg-[#0c2f70] hover:scale-[1.02] transition">
           Add Product
         </button>
       </form>

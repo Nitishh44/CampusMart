@@ -13,65 +13,60 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+    const res = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        alert("Signup successful!");
-
-        // 👉 login page pe bhej do
-        router.push("/login");
-      } else {
-        alert(data.message);
-      }
-    } catch (err) {
-      console.log(err);
-      alert("Error registering");
+    if (res.ok) {
+      alert("Registered successfully");
+      router.push("/login");
+    } else {
+      alert(data.message);
     }
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-yellow-50 to-indigo-100">
+      <form
+        onSubmit={handleRegister}
+        className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md hover:shadow-yellow-200 transition-all duration-500"
+      >
+        <h1 className="text-3xl font-bold mb-6 text-center text-[#0f3d91]">
+          Register
+        </h1>
 
-      <form onSubmit={handleRegister} className="flex flex-col gap-3">
         <input
           type="text"
           placeholder="Name"
+          className="w-full mb-4 p-3 border rounded-lg"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
         <input
           type="email"
           placeholder="Email"
+          className="w-full mb-4 p-3 border rounded-lg"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
         <input
           type="password"
           placeholder="Password"
+          className="w-full mb-6 p-3 border rounded-lg"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 rounded"
-          required
         />
 
-        <button className="bg-green-500 text-white py-2 rounded">
-          Sign Up
+        <button className="w-full bg-[#facc15] text-black py-3 rounded-lg font-semibold hover:scale-[1.02] transition-all duration-300">
+          Register
         </button>
       </form>
     </div>
