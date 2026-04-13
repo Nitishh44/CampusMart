@@ -1,3 +1,4 @@
+
 export const generateDescription = async (req, res) => {
   try {
     const { title } = req.body;

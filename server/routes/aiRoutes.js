@@ -1,8 +1,8 @@
-const express = require("express");
-const { generateDescription } = require ("../controllers/aiController.js");
+import express from "express";
+import { generateDescription } from "../controllers/aiController.js";
 
 const router = express.Router();
 
 router.post("/generate", generateDescription);
 
-module.exports = router;
+export default router;
