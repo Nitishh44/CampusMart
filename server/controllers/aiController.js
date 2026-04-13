@@ -6,7 +6,7 @@ export const generateDescription = async (req, res) => {
     const descriptions = [
       `${title} with high performance and sleek design. Perfect for daily use.`,
       `Premium ${title} offering great value and durability.`,
-      `${title} – reliable, efficient, and best in class.`,
+      `${title} - reliable, efficient, and best in class.`,
       `Experience top quality with this amazing ${title}.`,
     ];
 
