@@ -18,6 +18,7 @@ export default function AddProduct() {
   }, []);
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
 
     const token = localStorage.getItem("token");
@@ -43,6 +44,37 @@ export default function AddProduct() {
     }
   };
 
+  const handleGenerate = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!title) {
+    alert("Enter title first");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/ai/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setDescription(data.description);
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.log(err);
+    alert("AI error");
+  }
+};
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-yellow-50 to-indigo-100">
       <form className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md hover:shadow-blue-200 transition-all duration-500" onSubmit={handleSubmit}>
@@ -58,12 +90,20 @@ export default function AddProduct() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <input
+        <textarea
           type="text"
           placeholder="Description"
+          value={description}
           className="w-full mb-3 p-3 border rounded-lg"
           onChange={(e) => setDescription(e.target.value)}
         />
+        <button
+        type ="button"
+        onClick = {handleGenerate}
+        className = "bg-purple-600 text-white px-4 py-2 rounded mb-3"
+        >
+          Generate AI Description
+        </button>
 
         <input
           type="number"
