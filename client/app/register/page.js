@@ -13,7 +13,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/auth/register", {
+    const res = await fetch("https://campusmart-1-4esv.onrender.com/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

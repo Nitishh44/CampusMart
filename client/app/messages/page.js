@@ -16,7 +16,7 @@ export default function InboxPage() {
       setCurrentUser(user._id);
     }
 
-    fetch("http://localhost:5000/api/chat", {
+    fetch("https://campusmart-1-4esv.onrender.com/api/chat", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,7 +52,7 @@ export default function InboxPage() {
               >
                 {c.product?.image ? (
                   <img
-                    src={`http://localhost:5000/uploads/${c.product.image}`}
+                    src={`https://campusmart-1-4esv.onrender.com/uploads/${c.product.image}`}
                     alt={c.product.title}
                     className="w-20 h-20 object-cover rounded-lg"
                   />

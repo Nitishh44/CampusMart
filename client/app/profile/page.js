@@ -14,7 +14,7 @@ export default function Profile() {
 
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/api/product/my", {
+    fetch("https://campusmart-1-4esv.onrender.com/api/product/my", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -10,7 +10,7 @@ export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/product/${id}`)
+    fetch(`https://campusmart-1-4esv.onrender.com/api/product/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data))
       .catch((err) => console.log(err));
@@ -26,7 +26,7 @@ export default function ProductDetail({ params }) {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/chat/start", {
+      const res = await fetch("https://campusmart-1-4esv.onrender.com/api/chat/start", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function ProductDetail({ params }) {
     <div className="p-6 max-w-3xl mx-auto">
       {product.image && (
         <img
-          src={`http://localhost:5000/uploads/${product.image}`}
+          src={`https://campusmart-1-4esv.onrender.com/uploads/${product.image}`}
           alt={product.title}
           className="w-full h-80 object-cover rounded-xl mb-4"
         />

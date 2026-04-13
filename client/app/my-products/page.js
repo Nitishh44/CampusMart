@@ -11,7 +11,7 @@ export default function MyProductsPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/api/product/my", {
+    fetch("https://campusmart-1-4esv.onrender.com/api/product/my", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -25,7 +25,7 @@ export default function MyProductsPage() {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:5000/api/product/sold/${id}`,
+      `https://campusmart-1-4esv.onrender.com/api/product/sold/${id}`,
       {
         method: "PUT",
         headers: {
@@ -51,7 +51,7 @@ export default function MyProductsPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/api/product/${id}`, {
+      const res = await fetch(`https://campusmart-1-4esv.onrender.com/api/product/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ export default function MyProductsPage() {
             >
               {p.image && (
                 <img
-                  src={`http://localhost:5000/uploads/${p.image}`}
+                  src={`https://campusmart-1-4esv.onrender.com/uploads/${p.image}`}
                   alt={p.title}
                   className="w-full h-48 object-cover hover:scale-105 transition duration-500"
                 />

@@ -13,7 +13,7 @@ export default function EditProduct({ params }) {
 
   // 🔹 Fetch product
   useEffect(() => {
-    fetch(`http://localhost:5000/api/product/${id}`)
+    fetch(`https://campusmart-1-4esv.onrender.com/api/product/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.title);
@@ -27,7 +27,7 @@ export default function EditProduct({ params }) {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:5000/api/product/${id}`,
+      `https://campusmart-1-4esv.onrender.com/api/product/${id}`,
       {
         method: "PUT",
         headers: {

@@ -21,13 +21,13 @@ export default function ChatPage({ params }) {
 
     if (user) setCurrentUser(user._id);
 
-    fetch(`http://localhost:5000/api/message/${conversationId}`, {
+    fetch(`https://campusmart-1-4esv.onrender.com/api/message/${conversationId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => setMessages(data));
 
-    fetch(`http://localhost:5000/api/chat/${conversationId}`, {
+    fetch(`https://campusmart-1-4esv.onrender.com/api/chat/${conversationId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -46,7 +46,7 @@ export default function ChatPage({ params }) {
     const token = localStorage.getItem("token");
     if (!text.trim()) return;
 
-    const res = await fetch("http://localhost:5000/api/message/send", {
+    const res = await fetch("https://campusmart-1-4esv.onrender.com/api/message/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
