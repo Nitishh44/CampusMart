@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+const BASE_URL = "https://campusmart-1-4esv.onrender.com"
 
 export default function Home() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function Home() {
 
   if (token) {
     // 🔴 UNREAD COUNT
-    fetch("http://localhost:5000/api/chat/unread", {
+    fetch(`${BASE_URL}/api/chat/unread`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,7 +47,7 @@ export default function Home() {
       .catch((err) => console.log(err));
 
     // 📦 CHAT COUNT (optional)
-    fetch("http://localhost:5000/api/chat", {
+    fetch(`${BASE_URL}/api/chat`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -63,7 +64,7 @@ export default function Home() {
   // PRODUCTS
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/product/all");
+      const res = await fetch(`${BASE_URL}/api/product/all`);
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -86,7 +87,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/product/${id}`, {
+      const res = await fetch(`${BASE_URL}/api/product/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -185,7 +186,7 @@ export default function Home() {
               >
                 {p.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${p.image}`}
+                    src={`${BASE_URL}/uploads/${p.image}`}
                     alt={p.title}
                     className="h-52 w-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
