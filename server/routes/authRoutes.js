@@ -1,8 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const verifyToken = require("../middleware/authMiddleware");
+import express from "express";
+import verifyToken from "../middleware/authMiddleware";
 
-const { registerUser, loginUser, getProfile } = require("../controllers/authController");
+import { registerUser, loginUser, getProfile } from "../controllers/authController.js";
+
+const router = express.Router();
 
 
 router.get("/profile", verifyToken, getProfile);
