@@ -9,4 +9,4 @@ router.get("/profile", verifyToken, getProfile);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-module.exports = router;
+export default router;
