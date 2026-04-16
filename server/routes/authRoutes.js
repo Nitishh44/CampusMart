@@ -1,5 +1,5 @@
 import express from "express";
-import verifyToken from "../middleware/authMiddleware";
+import verifyToken from "../middleware/authMiddleware.js";
 
 import { registerUser, loginUser, getProfile } from "../controllers/authController.js";
 
