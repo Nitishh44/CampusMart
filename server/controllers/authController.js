@@ -75,3 +75,5 @@ export const getProfile = async (req, res) => {
     res.status(500).json({ message: "Error fetching profile" });
   }
 };
+
+export { registerUser, loginUser, getProfile};
