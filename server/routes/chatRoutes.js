@@ -1,12 +1,11 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const verifyToken = require("../middleware/authMiddleware");
-const { startConversation, getConversations } = require("../controllers/chatController");
-const { getUnreadCount } = require("../controllers/chatController");
+import verifyToken from "../middleware/authMiddleware";
+import { startConversation, getConversations, getUnreadCount } from "../controllers/chatController.js";
 
-router.post("/start", verifyToken, startChat);
-router.get("/", verifyToken, getChats);
+router.post("/start", verifyToken, startConversation);
+router.get("/", verifyToken, getConversations);
 router.get("/unread", verifyToken, getUnreadCount);
 
-module.exports = router;
+export default router;
