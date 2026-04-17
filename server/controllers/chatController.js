@@ -1,8 +1,8 @@
-const Conversation = require("../models/Conversation");
-const Message = require("../models/Message")
+import Conversation from "../models/Conversation.js";
+import Message from "../models/Message";
 
 // Create or get existing conversation
-exports.startConversation = async (req, res) => {
+export const startConversation = async (req, res) => {
   try {
     const buyerId = req.user.id;
     const { sellerId, productId } = req.body;
@@ -36,7 +36,7 @@ exports.startConversation = async (req, res) => {
 };
 
 // Get all conversations of logged-in user
-exports.getConversations = async (req, res) => {
+export const getConversations = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -68,7 +68,7 @@ res.status(200).json(conversationsWithLastMessage);
   }
 };
 
-exports.getUnreadCount = async (req, res) => {
+export const getUnreadCount = async (req, res) => {
   try {
     const userId = req.user.id;
 
