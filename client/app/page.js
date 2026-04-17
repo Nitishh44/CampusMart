@@ -36,7 +36,7 @@ export default function Home() {
 
   if (token) {
     // 🔴 UNREAD COUNT
-    fetch(`${BASE_URL}/api/chat/unread`, {
+    fetch("https://campusmart-1-4esv.onrender.com/api/chat/unread", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,7 +46,7 @@ export default function Home() {
       .catch((err) => console.log(err));
 
     // 📦 CHAT COUNT (optional)
-    fetch(`${BASE_URL}/api/chat`, {
+    fetch("https://campusmart-1-4esv.onrender.com/api/chat", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -86,7 +86,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch(`${BASE_URL}/api/product/${id}`, {
+      const res = await fetch(`https://campusmart-1-4esv.onrender.com/api/product/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -185,7 +185,7 @@ export default function Home() {
               >
                 {p.image && (
                   <img
-                    src={`${BASE_URL}/uploads/${p.image}`}
+                    src={`https://campusmart-1-4esv.onrender.com/uploads/${p.image}`}
                     alt={p.title}
                     className="h-52 w-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
