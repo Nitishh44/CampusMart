@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-const BASE_URL = "https://campusmart-1-4esv.onrender.com"
 
 export default function Home() {
   const router = useRouter();
@@ -64,7 +63,7 @@ export default function Home() {
   // PRODUCTS
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/api/product/all`);
+      const res = await fetch("https://campusmart-1-4esv.onrender.com/api/product/all");
       const data = await res.json();
       setProducts(data);
     } catch (err) {

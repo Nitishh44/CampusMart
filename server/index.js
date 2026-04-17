@@ -13,10 +13,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/api/ai", aiRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/product", productRoutes)
+app.use("/api/product", productRoutes);
+app.use("/uploads", express.static("uploads"));
 
 connectDB();
 
