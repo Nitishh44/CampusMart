@@ -1,11 +1,9 @@
-const multer = require("multer");
-const path = require("path");
-const express = require("express");
-const router = express.Router();
+import multer from "multer";
+import path from "path";
+import express from "express";
 
-const verifyToken = require("../middleware/authMiddleware");
-
-const {
+import verifyToken from "../middleware/authMiddleware.js";
+import {
   addProduct,
   getAllProducts,
   markAsSold,
@@ -13,9 +11,11 @@ const {
   deleteProduct,
   updateProduct,
   getMyProducts,
-} = require("../controllers/productController");
+} from "../controllers/productController.js";
 
-// 🔥 MULTER CONFIG
+const router = express.Router();
+
+// MULTER CONFIG
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -27,11 +27,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// 🔥 ROUTES
-
-// 👉 ADD PRODUCT (UPDATED)
+// ROUTES
 router.post("/add", verifyToken, upload.single("image"), addProduct);
-
 router.get("/all", getAllProducts);
 router.get("/my", verifyToken, getMyProducts);
 router.put("/sold/:id", verifyToken, markAsSold);
@@ -39,4 +36,4 @@ router.get("/:id", getSingleProduct);
 router.delete("/:id", verifyToken, deleteProduct);
 router.put("/:id", verifyToken, updateProduct);
 
-module.exports = router;
+export default router;
