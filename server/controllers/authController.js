@@ -76,4 +76,3 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getProfile};
