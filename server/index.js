@@ -16,6 +16,8 @@ app.use(express.json());
 app.use("/api/ai", aiRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/product", productRoutes);
+import chatRoutes from "./routes/chatRoutes.js"
+app.use("/api/chat", chatRoutes)
 app.use("/uploads", express.static("uploads"));
 
 connectDB();

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+const BASE_URL = "https://campusmart-1-4esv.onrender.com"
 
 export default function ProductDetail({ params }) {
   const { id } = params;
